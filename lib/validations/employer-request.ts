@@ -15,7 +15,7 @@ import {
 
 const phoneRegex = /^[\d\s\-\(\)\.+]+$/;
 
-export const employerRequestSchema = z.object({
+const employerRequestBaseSchema = z.object({
   // Contact Information
   contactName: z.string()
     .min(VALIDATION_RULES.NAME_MIN_LENGTH, 'Contact name must be at least 2 characters')
@@ -163,7 +163,9 @@ export const employerRequestSchema = z.object({
   consent: z.boolean()
     .refine((val) => val === true, 'You must agree to be contacted'),
 
-}).refine((data) => {
+});
+
+export const employerRequestSchema = employerRequestBaseSchema.refine((data) => {
   // If both min and max pay rates are provided, max must be >= min
   if (data.payRateMin !== undefined && data.payRateMax !== undefined) {
     return data.payRateMax >= data.payRateMin;
@@ -180,7 +182,7 @@ export type EmployerRequestFormData = z.infer<typeof employerRequestSchema>;
  * Partial schema for step-by-step forms
  */
 export const employerRequestStepSchemas = {
-  contactInfo: employerRequestSchema.pick({
+  contactInfo: employerRequestBaseSchema.pick({
     contactName: true,
     contactEmail: true,
     contactPhone: true,
@@ -189,7 +191,7 @@ export const employerRequestStepSchemas = {
     industry: true,
   }),
 
-  positionDetails: employerRequestSchema.pick({
+  positionDetails: employerRequestBaseSchema.pick({
     positionTitle: true,
     numberOfPositions: true,
     employmentType: true,
@@ -197,25 +199,25 @@ export const employerRequestStepSchemas = {
     jobDescription: true,
   }),
 
-  compensation: employerRequestSchema.pick({
+  compensation: employerRequestBaseSchema.pick({
     payRateMin: true,
     payRateMax: true,
     payRateType: true,
   }),
 
-  timeline: employerRequestSchema.pick({
+  timeline: employerRequestBaseSchema.pick({
     startDate: true,
     urgency: true,
   }),
 
-  location: employerRequestSchema.pick({
+  location: employerRequestBaseSchema.pick({
     workLocation: true,
     workCity: true,
     workState: true,
     workZip: true,
   }),
 
-  requirements: employerRequestSchema.pick({
+  requirements: employerRequestBaseSchema.pick({
     requiredSkills: true,
     preferredSkills: true,
     certifications: true,

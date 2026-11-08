@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { services } from '@/lib/config';
 
+const staffingService = (id: string) => services.staffing.find((service) => service.id === id)!;
+
 export const metadata: Metadata = {
   title: 'Staffing Services | Temporary, Temp-to-Hire & Direct Hire Solutions',
   description: 'Comprehensive staffing solutions for businesses across Houston and beyond. Temporary, temp-to-hire, direct hire, contract, professional, and remote staffing services.',
@@ -23,8 +25,8 @@ export const metadata: Metadata = {
 
 const staffingServices = [
   {
-    title: services.staffing['temporary-staffing'].name,
-    description: services.staffing['temporary-staffing'].description,
+    title: staffingService('temporary-staffing').name,
+    description: staffingService('temporary-staffing').description,
     href: '/staffing-services/temporary-staffing',
     icon: Clock,
     benefits: [
@@ -34,8 +36,8 @@ const staffingServices = [
     ],
   },
   {
-    title: services.staffing['temp-to-hire'].name,
-    description: services.staffing['temp-to-hire'].description,
+    title: staffingService('temp-to-hire').name,
+    description: staffingService('temp-to-hire').description,
     href: '/staffing-services/temp-to-hire',
     icon: UserCheck,
     benefits: [
@@ -45,8 +47,8 @@ const staffingServices = [
     ],
   },
   {
-    title: services.staffing['direct-hire'].name,
-    description: services.staffing['direct-hire'].description,
+    title: staffingService('direct-hire').name,
+    description: staffingService('direct-hire').description,
     href: '/staffing-services/direct-hire',
     icon: Users,
     benefits: [
@@ -56,8 +58,8 @@ const staffingServices = [
     ],
   },
   {
-    title: services.staffing['contract-staffing'].name,
-    description: services.staffing['contract-staffing'].description,
+    title: staffingService('contract-staffing').name,
+    description: staffingService('contract-staffing').description,
     href: '/staffing-services/contract-staffing',
     icon: Briefcase,
     benefits: [
@@ -67,8 +69,8 @@ const staffingServices = [
     ],
   },
   {
-    title: services.staffing['professional-recruiting'].name,
-    description: services.staffing['professional-recruiting'].description,
+    title: staffingService('professional-recruiting').name,
+    description: staffingService('professional-recruiting').description,
     href: '/staffing-services/professional-recruiting',
     icon: GraduationCap,
     benefits: [
@@ -78,8 +80,8 @@ const staffingServices = [
     ],
   },
   {
-    title: services.staffing['remote-staffing'].name,
-    description: services.staffing['remote-staffing'].description,
+    title: staffingService('remote-staffing').name,
+    description: staffingService('remote-staffing').description,
     href: '/staffing-services/remote-staffing',
     icon: Globe,
     benefits: [

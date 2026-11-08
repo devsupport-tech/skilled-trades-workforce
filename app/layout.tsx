@@ -17,11 +17,11 @@ export const metadata: Metadata = {
     template: seo.titleTemplate,
   },
   description: seo.defaultDescription,
-  keywords: seo.keywords,
+  keywords: [...seo.keywords],
   openGraph: {
     type: seo.openGraph.type,
     siteName: seo.openGraph.siteName,
-    images: seo.openGraph.images,
+    images: [...seo.openGraph.images],
   },
   twitter: {
     card: seo.twitter.cardType as 'summary_large_image',

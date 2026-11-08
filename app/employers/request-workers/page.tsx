@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -70,7 +71,7 @@ export default function RequestWorkersPage() {
     watch,
     setValue,
     trigger,
-  } = useForm<EmployerRequestFormData>({
+  } = useForm<z.input<typeof employerRequestSchema>, any, EmployerRequestFormData>({
     resolver: zodResolver(employerRequestSchema),
     mode: 'onBlur',
     defaultValues: {

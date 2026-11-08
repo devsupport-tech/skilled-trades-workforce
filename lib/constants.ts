@@ -269,7 +269,7 @@ export const VALIDATION_RULES = {
   NAME_MIN_LENGTH: 2,
   NAME_MAX_LENGTH: 100,
   MAX_FILE_SIZE_BYTES: 10 * 1024 * 1024, // 10MB
-  ALLOWED_DOCUMENT_TYPES: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+  ALLOWED_DOCUMENT_TYPES: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'] as const,
   phone: {
     pattern: /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/,
     message: 'Please enter a valid phone number',

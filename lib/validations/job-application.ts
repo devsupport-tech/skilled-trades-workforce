@@ -72,7 +72,7 @@ export const jobApplicationSchema = z.object({
   // Resume & Cover Letter
   resume: z.instanceof(File)
     .refine((file) => file.size <= VALIDATION_RULES.MAX_FILE_SIZE_BYTES, 'Resume must be less than 5MB')
-    .refine((file) => VALIDATION_RULES.ALLOWED_DOCUMENT_TYPES.includes(file.type), 'Resume must be PDF, DOC, or DOCX'),
+    .refine((file) => VALIDATION_RULES.ALLOWED_DOCUMENT_TYPES.includes(file.type as (typeof VALIDATION_RULES.ALLOWED_DOCUMENT_TYPES)[number]), 'Resume must be PDF, DOC, or DOCX'),
 
   coverLetter: z.string()
     .max(5000, 'Cover letter must be less than 5000 characters')

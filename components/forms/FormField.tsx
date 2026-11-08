@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select } from '@/components/ui/select';
 import { AlertCircle } from 'lucide-react';
-import { ChangeEvent } from 'react';
+import { forwardRef, type ChangeEventHandler, type ReactNode } from 'react';
 
 interface FormFieldProps {
   label: string;
@@ -16,17 +16,17 @@ interface FormFieldProps {
   helpText?: string;
   disabled?: boolean;
   value?: string | number;
-  onChange?: ((value: string) => void) | ((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void);
-  onBlur?: (() => void) | ((event: any) => void);
+  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement> | ((value: string) => void);
+  onBlur?: (() => void) | ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>;
   selectOptions?: { value: string; label: string }[];
-  min?: number;
-  max?: number;
-  step?: number;
+  min?: number | string;
+  max?: number | string;
+  step?: number | string;
   rows?: number;
   maxLength?: number;
   pattern?: string;
   className?: string;
-  ref?: any;
+  children?: ReactNode;
 }
 
 /**
@@ -47,7 +47,7 @@ interface FormFieldProps {
  *   onChange={(value) => setFormData({ ...formData, email: value })}
  * />
  */
-export function FormField({
+export const FormField = forwardRef<any, FormFieldProps>(({
   label,
   id,
   name,
@@ -68,8 +68,8 @@ export function FormField({
   maxLength,
   pattern,
   className = '',
-  ref,
-}: FormFieldProps) {
+  children,
+}, ref) => {
   const hasError = !!error;
 
   const renderInput = () => {
@@ -78,8 +78,8 @@ export function FormField({
       name: name || id,
       disabled,
       required,
-      onBlur,
-      onChange,
+      onBlur: onBlur as ChangeEventHandler<HTMLInputElement>,
+      onChange: onChange as ChangeEventHandler<HTMLInputElement>,
       ref,
       className: hasError ? 'border-red-500 focus:ring-red-500' : '',
     };
@@ -88,6 +88,8 @@ export function FormField({
       return (
         <Textarea
           {...baseProps}
+          onBlur={onBlur as ChangeEventHandler<HTMLTextAreaElement>}
+          onChange={onChange as ChangeEventHandler<HTMLTextAreaElement>}
           placeholder={placeholder}
           value={value as string || ''}
           rows={rows}
@@ -100,6 +102,8 @@ export function FormField({
       return (
         <Select
           {...baseProps}
+          onBlur={onBlur as ChangeEventHandler<HTMLSelectElement>}
+          onChange={onChange as ChangeEventHandler<HTMLSelectElement>}
           value={value as string || ''}
         >
           {placeholder && (
@@ -107,6 +111,7 @@ export function FormField({
               {placeholder}
             </option>
           )}
+          {children}
           {selectOptions?.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -152,4 +157,6 @@ export function FormField({
       )}
     </div>
   );
-}
+});
+
+FormField.displayName = 'FormField';

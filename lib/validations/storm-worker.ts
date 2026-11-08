@@ -219,7 +219,7 @@ export const stormWorkerRegistrationSchema = z.object({
   // Documents (optional at registration)
   resume: z.instanceof(File)
     .refine((file) => file.size <= VALIDATION_RULES.MAX_FILE_SIZE_BYTES, 'Resume must be less than 5MB')
-    .refine((file) => VALIDATION_RULES.ALLOWED_DOCUMENT_TYPES.includes(file.type), 'Resume must be PDF, DOC, or DOCX')
+    .refine((file) => VALIDATION_RULES.ALLOWED_DOCUMENT_TYPES.includes(file.type as (typeof VALIDATION_RULES.ALLOWED_DOCUMENT_TYPES)[number]), 'Resume must be PDF, DOC, or DOCX')
     .optional(),
 
   // Consent

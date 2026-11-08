@@ -16,7 +16,7 @@ import {
 const phoneRegex = /^[\d\s\-\(\)\.+]+$/;
 const linkedInRegex = /^(https?:\/\/)?(www\.)?linkedin\.com\/(in|pub)\/[a-zA-Z0-9_-]+\/?$/;
 
-export const candidateRegistrationSchema = z.object({
+export const candidateRegistrationBaseSchema = z.object({
   // Personal Information
   firstName: z.string()
     .min(VALIDATION_RULES.NAME_MIN_LENGTH, 'First name must be at least 2 characters')
@@ -153,7 +153,7 @@ export const candidateRegistrationSchema = z.object({
   // Documents (optional at registration, can be uploaded later)
   resume: z.instanceof(File)
     .refine((file) => file.size <= VALIDATION_RULES.MAX_FILE_SIZE_BYTES, 'Resume must be less than 5MB')
-    .refine((file) => VALIDATION_RULES.ALLOWED_DOCUMENT_TYPES.includes(file.type), 'Resume must be PDF, DOC, or DOCX')
+    .refine((file) => VALIDATION_RULES.ALLOWED_DOCUMENT_TYPES.includes(file.type as (typeof VALIDATION_RULES.ALLOWED_DOCUMENT_TYPES)[number]), 'Resume must be PDF, DOC, or DOCX')
     .optional(),
 
   // Social/Professional Links
@@ -203,7 +203,9 @@ export const candidateRegistrationSchema = z.object({
 
   marketingConsent: z.boolean().default(false),
 
-}).refine((data) => {
+});
+
+export const candidateRegistrationSchema = candidateRegistrationBaseSchema.refine((data) => {
   // If both min and max pay rates are provided, max must be >= min
   if (data.desiredPayRateMin !== undefined && data.desiredPayRateMax !== undefined) {
     return data.desiredPayRateMax >= data.desiredPayRateMin;
@@ -220,7 +222,7 @@ export type CandidateRegistrationFormData = z.infer<typeof candidateRegistration
  * Partial schema for step-by-step forms
  */
 export const candidateRegistrationStepSchemas = {
-  personalInfo: candidateRegistrationSchema.pick({
+  personalInfo: candidateRegistrationBaseSchema.pick({
     firstName: true,
     lastName: true,
     email: true,
@@ -228,7 +230,7 @@ export const candidateRegistrationStepSchemas = {
     alternatePhone: true,
   }),
 
-  address: candidateRegistrationSchema.pick({
+  address: candidateRegistrationBaseSchema.pick({
     addressLine1: true,
     addressLine2: true,
     city: true,
@@ -236,7 +238,7 @@ export const candidateRegistrationStepSchemas = {
     zipCode: true,
   }),
 
-  professional: candidateRegistrationSchema.pick({
+  professional: candidateRegistrationBaseSchema.pick({
     yearsExperience: true,
     primaryJobCategory: true,
     jobTitle: true,
@@ -245,7 +247,7 @@ export const candidateRegistrationStepSchemas = {
     linkedInUrl: true,
   }),
 
-  preferences: candidateRegistrationSchema.pick({
+  preferences: candidateRegistrationBaseSchema.pick({
     employmentTypes: true,
     shifts: true,
     desiredPayRateMin: true,
@@ -255,11 +257,11 @@ export const candidateRegistrationStepSchemas = {
     preferredLocations: true,
   }),
 
-  availability: candidateRegistrationSchema.pick({
+  availability: candidateRegistrationBaseSchema.pick({
     availableStartDate: true,
   }),
 
-  background: candidateRegistrationSchema.pick({
+  background: candidateRegistrationBaseSchema.pick({
     hasDriversLicense: true,
     hasReliableTransportation: true,
     isAuthorizedToWork: true,
@@ -267,7 +269,7 @@ export const candidateRegistrationStepSchemas = {
     hasDrugScreening: true,
   }),
 
-  additional: candidateRegistrationSchema.pick({
+  additional: candidateRegistrationBaseSchema.pick({
     specializations: true,
     languagesSpoken: true,
     additionalInfo: true,
@@ -278,7 +280,7 @@ export const candidateRegistrationStepSchemas = {
 /**
  * Quick apply schema (minimal required fields)
  */
-export const quickApplySchema = candidateRegistrationSchema.pick({
+export const quickApplySchema = candidateRegistrationBaseSchema.pick({
   firstName: true,
   lastName: true,
   email: true,

@@ -13,13 +13,13 @@ import { PhoneInput } from '@/components/forms/PhoneInput';
 import { TagsInput } from '@/components/forms/TagsInput';
 import { StateSelect } from '@/components/forms/StateSelect';
 import { FileUpload } from '@/components/forms/FileUpload';
-import { candidateRegistrationSchema } from '@/lib/validations/candidate-registration';
+import { candidateRegistrationBaseSchema } from '@/lib/validations/candidate-registration';
 import type { CandidateRegistrationFormData } from '@/lib/validations/candidate-registration';
 import { jobCategories } from '@/lib/config';
 import { CheckCircle, ArrowRight, ArrowLeft, Loader2, Shield, Clock, Users } from 'lucide-react';
 
 // Modify schema to make resume optional for web upload
-const webCandidateRegistrationSchema = candidateRegistrationSchema.omit({ resume: true }).extend({
+const webCandidateRegistrationSchema = candidateRegistrationBaseSchema.omit({ resume: true }).extend({
   resume: z.any().optional(),
 });
 
@@ -64,7 +64,7 @@ export default function ApplyPage() {
     watch,
     setValue,
     trigger,
-  } = useForm<WebCandidateRegistrationFormData>({
+  } = useForm<z.input<typeof webCandidateRegistrationSchema>, any, WebCandidateRegistrationFormData>({
     resolver: zodResolver(webCandidateRegistrationSchema),
     mode: 'onBlur',
     defaultValues: {

@@ -116,8 +116,8 @@ export function StateSelect({
         id={id}
         name={name || id}
         value={value || ''}
-        onChange={onChange}
-        onBlur={onBlur}
+        onChange={onChange as React.ChangeEventHandler<HTMLSelectElement>}
+        onBlur={onBlur as React.ChangeEventHandler<HTMLSelectElement>}
         disabled={disabled}
         required={required}
         ref={ref}

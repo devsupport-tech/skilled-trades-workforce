@@ -12,7 +12,7 @@ function getEnvVar(key: string, defaultValue?: string): string {
     console.warn(`Missing environment variable: ${key}`);
     return `[${key}_NOT_SET]`;
   }
-  return value;
+  return value ?? `[${key}_NOT_SET]`;
 }
 
 function getPublicEnvVar(key: string, defaultValue?: string): string {

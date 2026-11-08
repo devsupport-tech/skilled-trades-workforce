@@ -152,7 +152,7 @@ export function ReferenceFields({
                     type="text"
                     placeholder="John Smith"
                     value={reference.name}
-                    onChange={(val) => updateReference(index, 'name', val)}
+                    onChange={(val: string) => updateReference(index, 'name', val)}
                     required={index < minReferences}
                     disabled={disabled}
                   />
@@ -162,7 +162,7 @@ export function ReferenceFields({
                     type="text"
                     placeholder="ABC Construction"
                     value={reference.company}
-                    onChange={(val) => updateReference(index, 'company', val)}
+                    onChange={(val: string) => updateReference(index, 'company', val)}
                     required={index < minReferences}
                     disabled={disabled}
                   />
@@ -175,7 +175,7 @@ export function ReferenceFields({
                     type="text"
                     placeholder="Project Manager"
                     value={reference.title || ''}
-                    onChange={(val) => updateReference(index, 'title', val)}
+                    onChange={(val: string) => updateReference(index, 'title', val)}
                     disabled={disabled}
                   />
                 )}
@@ -187,7 +187,7 @@ export function ReferenceFields({
                     type="text"
                     placeholder="Former Supervisor"
                     value={reference.relationship || ''}
-                    onChange={(val) => updateReference(index, 'relationship', val)}
+                    onChange={(val: string) => updateReference(index, 'relationship', val)}
                     disabled={disabled}
                   />
                 )}
@@ -198,7 +198,7 @@ export function ReferenceFields({
                     id={`${id}-${index}-phone`}
                     placeholder="(555) 123-4567"
                     value={reference.phone}
-                    onChange={(val) => updateReference(index, 'phone', val)}
+                    onChange={(val: string) => updateReference(index, 'phone', val)}
                     required={index < minReferences}
                     disabled={disabled}
                   />
@@ -208,7 +208,7 @@ export function ReferenceFields({
                     type="email"
                     placeholder="john@example.com"
                     value={reference.email || ''}
-                    onChange={(val) => updateReference(index, 'email', val)}
+                    onChange={(val: string) => updateReference(index, 'email', val)}
                     disabled={disabled}
                   />
                 </div>

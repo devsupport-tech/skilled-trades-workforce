@@ -60,7 +60,7 @@ export const stormEmployerRequestSchema = z.object({
     'property_management',
     'other',
   ] as const, {
-    errorMap: () => ({ message: 'Please select company type' }),
+    message: 'Please select company type',
   }),
 
   // Event Information
@@ -75,7 +75,7 @@ export const stormEmployerRequestSchema = z.object({
     'wind',
     'other_catastrophe',
   ] as const, {
-    errorMap: () => ({ message: 'Please select event type' }),
+    message: 'Please select event type',
   }),
 
   eventName: z.string()
@@ -121,7 +121,7 @@ export const stormEmployerRequestSchema = z.object({
 
   // Request Details
   requestType: z.enum(['individuals', 'complete_crew', 'either'] as const, {
-    errorMap: () => ({ message: 'Please select request type' }),
+    message: 'Please select request type',
   }),
 
   numberOfWorkersNeeded: z.coerce.number()

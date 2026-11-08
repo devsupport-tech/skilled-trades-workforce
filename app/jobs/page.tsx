@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -79,6 +79,11 @@ export default function JobsPage() {
   const [selectedShift, setSelectedShift] = useState('All Shifts');
   const [selectedSort, setSelectedSort] = useState('Most Recent');
   const [showFilters, setShowFilters] = useState(false);
+  const [now, setNow] = useState<number | null>(null);
+
+  useEffect(() => {
+    setNow(Date.now());
+  }, []);
 
   // Filter and sort jobs
   const filteredJobs = mockJobs.filter((job) => {
@@ -105,8 +110,9 @@ export default function JobsPage() {
 
   const getTimeAgo = (dateString: string) => {
     const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
+    if (now === null) return 'Recently';
+
+    const diffTime = Math.abs(now - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     if (diffDays === 0) return 'Today';
