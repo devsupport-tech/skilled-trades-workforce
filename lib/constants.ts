@@ -27,6 +27,16 @@ export const SHIFTS = {
 
 export type Shift = typeof SHIFTS[keyof typeof SHIFTS];
 
+// === Urgency Levels ===
+export const URGENCY_LEVELS = {
+  IMMEDIATE: 'immediate',
+  WITHIN_WEEK: 'within-week',
+  WITHIN_MONTH: 'within-month',
+  FLEXIBLE: 'flexible',
+} as const;
+
+export type UrgencyLevel = typeof URGENCY_LEVELS[keyof typeof URGENCY_LEVELS];
+
 // === Mobilization Windows (Storm) ===
 export const MOBILIZATION_WINDOWS = {
   IMMEDIATE: 'immediately',
@@ -256,6 +266,10 @@ export type EmailTemplate = typeof EMAIL_TEMPLATES[keyof typeof EMAIL_TEMPLATES]
 
 // === Validation Rules ===
 export const VALIDATION_RULES = {
+  NAME_MIN_LENGTH: 2,
+  NAME_MAX_LENGTH: 100,
+  MAX_FILE_SIZE_BYTES: 10 * 1024 * 1024, // 10MB
+  ALLOWED_DOCUMENT_TYPES: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
   phone: {
     pattern: /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/,
     message: 'Please enter a valid phone number',

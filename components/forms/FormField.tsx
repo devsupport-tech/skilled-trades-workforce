@@ -1,12 +1,14 @@
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select } from '@/components/ui/select';
 import { AlertCircle } from 'lucide-react';
+import { ChangeEvent } from 'react';
 
 interface FormFieldProps {
   label: string;
   id: string;
+  name?: string;
   type?: 'text' | 'email' | 'tel' | 'number' | 'url' | 'date' | 'textarea' | 'select';
   placeholder?: string;
   error?: string;
@@ -14,8 +16,8 @@ interface FormFieldProps {
   helpText?: string;
   disabled?: boolean;
   value?: string | number;
-  onChange?: (value: string) => void;
-  onBlur?: () => void;
+  onChange?: ((value: string) => void) | ((event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void);
+  onBlur?: (() => void) | ((event: any) => void);
   selectOptions?: { value: string; label: string }[];
   min?: number;
   max?: number;
@@ -24,6 +26,7 @@ interface FormFieldProps {
   maxLength?: number;
   pattern?: string;
   className?: string;
+  ref?: any;
 }
 
 /**
@@ -47,6 +50,7 @@ interface FormFieldProps {
 export function FormField({
   label,
   id,
+  name,
   type = 'text',
   placeholder,
   error,
@@ -64,16 +68,19 @@ export function FormField({
   maxLength,
   pattern,
   className = '',
+  ref,
 }: FormFieldProps) {
   const hasError = !!error;
 
   const renderInput = () => {
     const baseProps = {
       id,
-      name: id,
+      name: name || id,
       disabled,
       required,
       onBlur,
+      onChange,
+      ref,
       className: hasError ? 'border-red-500 focus:ring-red-500' : '',
     };
 
@@ -83,7 +90,6 @@ export function FormField({
           {...baseProps}
           placeholder={placeholder}
           value={value as string || ''}
-          onChange={(e) => onChange?.(e.target.value)}
           rows={rows}
           maxLength={maxLength}
         />
@@ -93,23 +99,19 @@ export function FormField({
     if (type === 'select') {
       return (
         <Select
+          {...baseProps}
           value={value as string || ''}
-          onValueChange={(val) => onChange?.(val)}
-          disabled={disabled}
         >
-          <SelectTrigger
-            id={id}
-            className={hasError ? 'border-red-500 focus:ring-red-500' : ''}
-          >
-            <SelectValue placeholder={placeholder || 'Select an option'} />
-          </SelectTrigger>
-          <SelectContent>
-            {selectOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
+          {placeholder && (
+            <option value="" disabled>
+              {placeholder}
+            </option>
+          )}
+          {selectOptions?.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </Select>
       );
     }
@@ -120,7 +122,6 @@ export function FormField({
         type={type}
         placeholder={placeholder}
         value={value || ''}
-        onChange={(e) => onChange?.(e.target.value)}
         min={min}
         max={max}
         step={step}

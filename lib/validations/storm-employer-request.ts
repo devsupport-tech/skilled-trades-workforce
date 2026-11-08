@@ -177,22 +177,18 @@ export const stormEmployerRequestSchema = z.object({
 
   mobilizationNeeded: z.enum([
     MOBILIZATION_WINDOWS.IMMEDIATE,
-    MOBILIZATION_WINDOWS.WITHIN_24_HOURS,
-    MOBILIZATION_WINDOWS.WITHIN_48_HOURS,
-    MOBILIZATION_WINDOWS.WITHIN_72_HOURS,
+    MOBILIZATION_WINDOWS.WITHIN_24H,
+    MOBILIZATION_WINDOWS.WITHIN_48H,
+    MOBILIZATION_WINDOWS.WITHIN_72H,
     MOBILIZATION_WINDOWS.WITHIN_WEEK,
-  ] as const, {
-    errorMap: () => ({ message: 'Please select mobilization window' }),
-  }),
+  ] as const),
 
   urgency: z.enum([
     URGENCY_LEVELS.IMMEDIATE,
     URGENCY_LEVELS.WITHIN_WEEK,
     URGENCY_LEVELS.WITHIN_MONTH,
     URGENCY_LEVELS.FLEXIBLE,
-  ] as const, {
-    errorMap: () => ({ message: 'Please select urgency level' }),
-  }),
+  ] as const),
 
   // Compensation & Benefits
   payRateMin: z.coerce.number()

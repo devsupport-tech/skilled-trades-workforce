@@ -4,19 +4,22 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { AlertCircle } from 'lucide-react';
 import { formatPhoneNumber } from '@/lib/utils';
+import { ChangeEvent } from 'react';
 
 interface PhoneInputProps {
   label: string;
   id: string;
+  name?: string;
   placeholder?: string;
   error?: string;
   required?: boolean;
   helpText?: string;
   disabled?: boolean;
   value?: string;
-  onChange?: (value: string) => void;
-  onBlur?: () => void;
+  onChange?: ((value: string) => void) | ((event: ChangeEvent<HTMLInputElement>) => void);
+  onBlur?: (() => void) | ((event: any) => void);
   className?: string;
+  ref?: any;
 }
 
 /**
@@ -39,6 +42,7 @@ interface PhoneInputProps {
 export function PhoneInput({
   label,
   id,
+  name,
   placeholder = '(555) 123-4567',
   error,
   required = false,
@@ -48,6 +52,7 @@ export function PhoneInput({
   onChange,
   onBlur,
   className = '',
+  ref,
 }: PhoneInputProps) {
   const hasError = !!error;
 
@@ -61,7 +66,18 @@ export function PhoneInput({
     if (digitsOnly.length <= 10) {
       // Store the formatted version
       const formatted = formatPhoneNumber(input);
-      onChange?.(formatted);
+
+      // Check if onChange expects a value or an event
+      if (onChange) {
+        // Try calling with formatted value first (for manual onChange handlers)
+        try {
+          (onChange as (value: string) => void)(formatted);
+        } catch {
+          // If that fails, call with the event (for react-hook-form)
+          e.target.value = formatted;
+          (onChange as (event: ChangeEvent<HTMLInputElement>) => void)(e);
+        }
+      }
     }
   };
 
@@ -72,7 +88,18 @@ export function PhoneInput({
 
     if (digitsOnly.length <= 10) {
       const formatted = formatPhoneNumber(digitsOnly);
-      onChange?.(formatted);
+
+      if (onChange) {
+        try {
+          (onChange as (value: string) => void)(formatted);
+        } catch {
+          const syntheticEvent = {
+            target: { value: formatted },
+            type: 'change'
+          } as ChangeEvent<HTMLInputElement>;
+          (onChange as (event: ChangeEvent<HTMLInputElement>) => void)(syntheticEvent);
+        }
+      }
     }
   };
 
@@ -86,7 +113,7 @@ export function PhoneInput({
       <Input
         type="tel"
         id={id}
-        name={id}
+        name={name || id}
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
@@ -94,6 +121,7 @@ export function PhoneInput({
         onBlur={onBlur}
         disabled={disabled}
         required={required}
+        ref={ref}
         className={hasError ? 'border-red-500 focus:ring-red-500' : ''}
         maxLength={14} // (XXX) XXX-XXXX
       />

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 const values = [
   {
     title: 'Integrity',
-    description: 'We do what we say we\\'ll do. Honest communication, transparent pricing, and ethical practices guide every decision.',
+    description: 'We do what we say we will do. Honest communication, transparent pricing, and ethical practices guide every decision.',
     icon: Shield,
   },
   {
@@ -33,12 +33,12 @@ const values = [
   },
   {
     title: 'Partnership',
-    description: 'We\\'re not just a vendor - we\\'re your staffing partner. We learn your business, understand your needs, and deliver solutions.',
+    description: 'We are not just a vendor - we are your staffing partner. We learn your business, understand your needs, and deliver solutions.',
     icon: Handshake,
   },
   {
     title: 'Community',
-    description: 'We\\'re committed to the Greater Houston area. By connecting local talent with local opportunities, we strengthen our community.',
+    description: 'We are committed to the Greater Houston area. By connecting local talent with local opportunities, we strengthen our community.',
     icon: Heart,
   },
 ];
@@ -49,7 +49,7 @@ const whyChooseUs = [
   'Dedicated recruiters who understand your industry',
   'Flexible staffing options to fit your needs',
   'Comprehensive background checks and drug screening',
-  'Workers\\' comp and payroll administration handled',
+  'Workers comp and payroll administration handled',
   'Local expertise with Greater Houston focus',
   'Responsive support when you need it',
 ];

@@ -1,19 +1,22 @@
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select } from '@/components/ui/select';
 import { AlertCircle } from 'lucide-react';
+import { ChangeEvent } from 'react';
 
 interface StateSelectProps {
   label?: string;
   id: string;
+  name?: string;
   placeholder?: string;
   error?: string;
   required?: boolean;
   helpText?: string;
   disabled?: boolean;
   value?: string;
-  onChange?: (value: string) => void;
-  onBlur?: () => void;
+  onChange?: ((value: string) => void) | ((event: ChangeEvent<HTMLSelectElement>) => void);
+  onBlur?: (() => void) | ((event: any) => void);
   className?: string;
+  ref?: any;
 }
 
 const US_STATES = [
@@ -88,6 +91,7 @@ const US_STATES = [
 export function StateSelect({
   label = 'State',
   id,
+  name,
   placeholder = 'Select state',
   error,
   required = false,
@@ -97,6 +101,7 @@ export function StateSelect({
   onChange,
   onBlur,
   className = '',
+  ref,
 }: StateSelectProps) {
   const hasError = !!error;
 
@@ -108,24 +113,26 @@ export function StateSelect({
       </Label>
 
       <Select
+        id={id}
+        name={name || id}
         value={value || ''}
-        onValueChange={onChange}
+        onChange={onChange}
+        onBlur={onBlur}
         disabled={disabled}
+        required={required}
+        ref={ref}
+        className={hasError ? 'border-red-500 focus:ring-red-500' : ''}
       >
-        <SelectTrigger
-          id={id}
-          onBlur={onBlur}
-          className={hasError ? 'border-red-500 focus:ring-red-500' : ''}
-        >
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent className="max-h-[300px]">
-          {US_STATES.map((state) => (
-            <SelectItem key={state.value} value={state.value}>
-              {state.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
+        {placeholder && (
+          <option value="" disabled>
+            {placeholder}
+          </option>
+        )}
+        {US_STATES.map((state) => (
+          <option key={state.value} value={state.value}>
+            {state.label}
+          </option>
+        ))}
       </Select>
 
       {helpText && !hasError && (

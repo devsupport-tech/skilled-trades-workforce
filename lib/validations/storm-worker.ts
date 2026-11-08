@@ -119,13 +119,11 @@ export const stormWorkerRegistrationSchema = z.object({
 
   mobilizationWindow: z.enum([
     MOBILIZATION_WINDOWS.IMMEDIATE,
-    MOBILIZATION_WINDOWS.WITHIN_24_HOURS,
-    MOBILIZATION_WINDOWS.WITHIN_48_HOURS,
-    MOBILIZATION_WINDOWS.WITHIN_72_HOURS,
+    MOBILIZATION_WINDOWS.WITHIN_24H,
+    MOBILIZATION_WINDOWS.WITHIN_48H,
+    MOBILIZATION_WINDOWS.WITHIN_72H,
     MOBILIZATION_WINDOWS.WITHIN_WEEK,
-  ] as const, {
-    errorMap: () => ({ message: 'Please select mobilization window' }),
-  }),
+  ] as const),
 
   minimumAssignmentDuration: z.coerce.number()
     .int('Minimum assignment duration must be a whole number')

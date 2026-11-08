@@ -67,9 +67,7 @@ export const employerRequestSchema = z.object({
     EMPLOYMENT_TYPES.DIRECT_HIRE,
     EMPLOYMENT_TYPES.CONTRACT,
     EMPLOYMENT_TYPES.REMOTE,
-  ] as const, {
-    errorMap: () => ({ message: 'Please select a valid employment type' }),
-  }),
+  ] as const),
 
   shift: z.enum([
     SHIFTS.DAY,
@@ -77,9 +75,7 @@ export const employerRequestSchema = z.object({
     SHIFTS.SWING,
     SHIFTS.ROTATING,
     SHIFTS.FLEXIBLE,
-  ] as const, {
-    errorMap: () => ({ message: 'Please select a valid shift' }),
-  }).optional(),
+  ] as const).optional(),
 
   // Compensation
   payRateMin: z.coerce.number()
@@ -109,9 +105,7 @@ export const employerRequestSchema = z.object({
     URGENCY_LEVELS.WITHIN_WEEK,
     URGENCY_LEVELS.WITHIN_MONTH,
     URGENCY_LEVELS.FLEXIBLE,
-  ] as const, {
-    errorMap: () => ({ message: 'Please select urgency level' }),
-  }),
+  ] as const),
 
   // Location
   workLocation: z.string()

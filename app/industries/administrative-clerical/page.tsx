@@ -48,7 +48,7 @@ const benefits = [
   'Remote work capabilities when needed',
 ];
 
-export default function AdministrativeC lericalPage() {
+export default function AdministrativeClericalPage() {
   return (
     <>
       {/* Hero Section */}
