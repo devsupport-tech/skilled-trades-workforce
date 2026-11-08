@@ -6,12 +6,30 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:generate-types": "npx supabase gen types typescript --local > lib/supabase/types.ts",
+    "db:push": "npx supabase db push",
+    "db:seed": "npx supabase db seed",
+    "db:reset": "npx supabase db reset",
+    "docker:build": "docker build -t skilled-trades-workforce .",
+    "docker:run": "docker run -p 3000:3000 --env-file .env.local skilled-trades-workforce",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
   },
   "dependencies": {
+    "@hookform/resolvers": "^7.0.3",
+    "@supabase/supabase-js": "^2.119.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
+    "lucide-react": "^1.69.0",
     "next": "16.4.5",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "react-hook-form": "^7.91.0",
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
